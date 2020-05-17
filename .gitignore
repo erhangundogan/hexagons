@@ -1,0 +1,15 @@
+CMakeFiles
+CMakeScripts
+CMakeLists.txt.user
+CMakeCache.txt
+cmake-build-debug
+Testing
+_deps
+tmp
+build
+install_manifest.txt
+compile_commands.json
+*.cmake
+*.cbp
+*.log
+Makefile
