@@ -54,4 +54,10 @@ $ make
 $ ./build/hexagons
 ```
 
-![hexagons](https://github.com/erhangundogan/hexagons/blob/master/hexagons.png)
+`polylines` with `fillConvexPoly`
+
+![hexagons](https://github.com/erhangundogan/hexagons/blob/master/images/hexagons1.png)
+
+only `polylines`
+
+![hexagons](https://github.com/erhangundogan/hexagons/blob/master/images/hexagons2.png)
