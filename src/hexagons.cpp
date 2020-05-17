@@ -38,8 +38,10 @@ int main() {
 
     for(int row = 0; s.y < h; row++) {
       for(int col = 0; s.x <= w; col++) {
+        // you can remove this method to draw full screen
         bool b = shouldShow(gen);
         if (b) {
+          // you can randomize Scalar BGR
           drawHexagons(image, s, Scalar(255, 255, 255));
         }
         s.x += x * factor * 2;
@@ -87,6 +89,7 @@ void drawHexagons(Mat image, Point p, Scalar color) {
             lineType);
 
    // fills polygons
+   // you can remove this to draw only edges
    fillConvexPoly(image,
                   points,
                   color,
