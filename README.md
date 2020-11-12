@@ -1,13 +1,11 @@
 hexagons
 ========
 
-- Draws hexagons with [polylines](https://docs.opencv.org/master/d6/d6e/group__imgproc__draw.html#gaa3c25f9fb764b6bef791bf034f6e26f5)
-- Fills them with [fillConvexPoly](https://docs.opencv.org/master/d6/d6e/group__imgproc__draw.html#ga9bb982be9d641dc51edd5e8ae3624e1f)
-- Opens default camera for video capturing on screen with hexagons overlay
+This application opens camera on your computer and it applies hexagon filter to streaming video. Please see sample frame below from real time video capturing.
 
 This code requires [OpenCV](https://github.com/opencv/opencv) and [cmake](https://cmake.org/install/) to be able to compile and run.
 
-Try commands below to find out if you have opencv and cmake:
+Try commands below to find out if you have an opencv and a cmake to compile and run this code.
 
 ```bash
 $ opencv_version
@@ -27,6 +25,6 @@ $ make
 $ build/hexagons
 ```
 
-### Sample frame from real time video capture
+### Sample frame from real time video capturing
 
 ![hexagons](https://github.com/erhangundogan/hexagons/blob/master/images/video-capture.png)
