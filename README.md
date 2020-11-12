@@ -1,7 +1,7 @@
 hexagons
 ========
 
-Draw hexagons with [polylines](https://docs.opencv.org/master/d6/d6e/group__imgproc__draw.html#gaa3c25f9fb764b6bef791bf034f6e26f5) and fills them with [fillConvexPoly](https://docs.opencv.org/master/d6/d6e/group__imgproc__draw.html#ga9bb982be9d641dc51edd5e8ae3624e1f) by using OpenCV. It's an example tointroduction to the drawing.
+Draw hexagons with [polylines](https://docs.opencv.org/master/d6/d6e/group__imgproc__draw.html#gaa3c25f9fb764b6bef791bf034f6e26f5) and fills them with [fillConvexPoly](https://docs.opencv.org/master/d6/d6e/group__imgproc__draw.html#ga9bb982be9d641dc51edd5e8ae3624e1f) by using OpenCV.
 
 This code requires [OpenCV](https://github.com/opencv/opencv) and [cmake](https://cmake.org/install/) to be able to compile and run.
 
