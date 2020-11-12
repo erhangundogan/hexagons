@@ -1,68 +1,70 @@
 #include <opencv2/core.hpp>
 #include <opencv2/imgproc.hpp>
 #include <opencv2/highgui.hpp>
+#include <opencv2/videoio.hpp>
 #include <iostream>
 #include <random>
 
-#define w 1280
-#define h 1024
+// change these for diff screen resolutions
+#define w 1440
+#define h 900
 
 using namespace cv;
 using namespace std;
 
-void drawHexagons(Mat, Point, Scalar);
+void drawHexagon(Mat, Point, Scalar);
+void drawHexagons(Mat, int);
 
-int main() {
+int main(int argc, char* argv[]) {
   Size imageSize(w, h);
-  Mat image(imageSize, CV_8UC3);
+  Mat imageHexagons(imageSize, CV_8UC3);
 
-  if (image.empty())
+  if (imageHexagons.empty())
   {
-    cout << "Error : Image cannot be created..!!" << endl;
-    system("pause");
+    cerr << "ERROR! Image cannot be created\n";
     return -1;
   }
-  cout << "Press any key to regenerate OR press 'q' to exit!" << endl;
 
-  namedWindow("hexagons", WINDOW_AUTOSIZE);
+  Mat dstImage, frame;
+  VideoCapture capture;
+  int factorDefault = 11; // increase/decrease space between hexagons
+  int deviceID = 0; // specify your video capture device
+  int apiID = cv::CAP_ANY;
 
-  random_device rd;
-  mt19937 gen(rd());
-  uniform_int_distribution<> shouldShow(0, 1);
+  capture.set(VideoCaptureProperties::CAP_PROP_FRAME_WIDTH, w);
+  capture.set(VideoCaptureProperties::CAP_PROP_FRAME_HEIGHT, h);
 
-  for(;;) {
-    int x = 3;
-    int y = 2;
-    int factor = 10;
-    Point s(-x * factor, -y * factor);
+  capture.open(deviceID, apiID);
 
-    for(int row = 0; s.y < h; row++) {
-      for(int col = 0; s.x <= w; col++) {
-        // you can remove this method to draw full screen
-        bool b = shouldShow(gen);
-        if (b) {
-          // you can randomize Scalar BGR
-          drawHexagons(image, s, Scalar(255, 255, 255));
-        }
-        s.x += x * factor * 2;
-      }
-      s.y += y * factor * 2;
-      s.x = row % 2 ? -x * factor : 0;
-    }
+  if (!capture.isOpened()) {
+    cerr << "ERROR! Unable to open camera\n";
+    return -1;
+  }
 
-    imshow("hexagons", image);
+  for (;;) {
+    capture >> frame;
 
-    char c = waitKey(0);
-    if (c == 'q') {
+    if (frame.empty()) {
+      cerr << "ERROR! blank frame grabbed\n";
       break;
     }
-    image.setTo(Scalar::all(0));
+
+    imageHexagons = Scalar(0, 0, 0);
+    dstImage = Scalar(0, 0, 0);
+
+    drawHexagons(imageHexagons, factorDefault);
+    resize(frame, frame, Size(w, h), 0, 0, INTER_CUBIC);
+    frame.copyTo(dstImage, imageHexagons);
+    imshow("Masked", dstImage);
+
+    if (waitKey(5) >= 0)
+      break;
   }
 
   return 0;
 }
 
-void drawHexagons(Mat image, Point p, Scalar color) {
+void drawHexagon(Mat image, Point p, Scalar color) {
   int thickness = 1;
   int lineType = LINE_AA;
   bool isClosed = true;
@@ -88,10 +90,25 @@ void drawHexagons(Mat image, Point p, Scalar color) {
             thickness,
             lineType);
 
-   // fills polygons
-   // you can remove this to draw only edges
+   // fills polygons, you can remove this method to draw only edges
    fillConvexPoly(image,
                   points,
                   color,
                   lineType);
+}
+
+void drawHexagons(Mat image, int factor) {
+  // change x, y, factor values to increase/decrease distance between hexagons
+  int x = 3;
+  int y = 2;
+  Point s(-x * factor, -y * factor);
+
+  for(int row = 0; s.y < h; row++) {
+    for(int col = 0; s.x <= w; col++) {
+      drawHexagon(image, s, Scalar(255, 255, 255));
+      s.x += x * factor * 2;
+    }
+    s.y += y * factor * 2;
+    s.x = row % 2 ? x * factor : 0;
+  }
 }
